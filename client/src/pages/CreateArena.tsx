@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
+import { API_URL } from '../utils/vars';
 
 export default function CreateArena() {
   const [title, setTitle] = useState('');
@@ -19,7 +20,7 @@ export default function CreateArena() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/arenas',
+        `${API_URL}/arenas`,
         { title, description },
         {
           headers: {

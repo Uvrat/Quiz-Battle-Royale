@@ -5,6 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import ArenaBackground from '../components/ArenaBackground';
+import { API_URL, SOCKET_URL } from '../utils/vars';
 
 interface Arena {
   id: string;
@@ -51,7 +52,7 @@ export default function ArenaDetails() {
   useEffect(() => {
     const fetchArena = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/arenas/${id}`);
+        const response = await axios.get(`${API_URL}/arenas/${id}`);
         setArena(response.data);
       } catch (err) {
         console.error('Error fetching arena:', err);
@@ -65,7 +66,7 @@ export default function ArenaDetails() {
     
     // Connect to Socket.io if authenticated
     if (isAuthenticated && token && user) {
-      const newSocket = io('http://localhost:5000', {
+      const newSocket = io(SOCKET_URL, {
         auth: { token }
       });
       
@@ -141,7 +142,7 @@ export default function ArenaDetails() {
     
     setDeleting(true);
     try {
-      await axios.delete(`http://localhost:5000/api/arenas/${id}`, {
+      await axios.delete(`${API_URL}/arenas/${id}`, {
         headers: {
           'x-auth-token': token
         }

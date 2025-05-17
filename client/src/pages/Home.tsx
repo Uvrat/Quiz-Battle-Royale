@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import HomepageBackground from '../components/HomepageBackground';
+import { API_URL } from '../utils/vars';
 
 interface Arena {
   id: string;
@@ -28,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     const fetchArenas = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/arenas');
+        const response = await axios.get(`${API_URL}/arenas`);
         setArenas(response.data);
       } catch (err) {
         console.error('Error fetching arenas:', err);

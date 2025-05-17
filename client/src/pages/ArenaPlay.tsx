@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '../contexts/AuthContext';
 import Layout from '../components/Layout';
 import QuestionForm from '../components/QuestionForm';
+import { API_URL, SOCKET_URL } from '../utils/vars';
 
 interface Option {
   text: string;
@@ -65,10 +66,11 @@ export default function ArenaPlay() {
   const [questionAdded, setQuestionAdded] = useState(false);
   const [startingQuiz, setStartingQuiz] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [pageReady, setPageReady] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Connect to socket on mount
+  // Fetch arena details and connect to socket
   useEffect(() => {
     if (!user || !token) {
       navigate('/login');
@@ -79,18 +81,21 @@ export default function ArenaPlay() {
     const checkCreator = async () => {
       if (!isCreator && id && user) {
         try {
-          const response = await fetch(`http://localhost:5000/api/arenas/${id}`, {
+          const response = await fetch(`${API_URL}/arenas/${id}`, {
             headers: {
               'x-auth-token': token
             }
           });
           const arenaData = await response.json();
           
-          if (arenaData.creatorId === user.id) {
+          // Safe check for user before accessing id
+          if (user && arenaData.creatorId === user.id) {
             // Redirect to host mode if user is creator but not in creator mode
             navigate(`/arena/${id}/play?isCreator=true&mode=host`);
             return true;
           }
+          setArena(arenaData.arena);
+          setLoading(false);
         } catch (err) {
           console.error('Error checking creator status:', err);
         }
@@ -102,19 +107,21 @@ export default function ArenaPlay() {
     checkCreator().then(result => {
       redirecting = result;
       if (!redirecting) {
-        const newSocket = io('http://localhost:5000', {
+        const newSocket = io(SOCKET_URL, {
           auth: { token }
         });
 
         newSocket.on('connect', () => {
           console.log('Connected to socket server');
-          // Join arena
-          newSocket.emit('join_arena', { 
-            userId: user.id, 
-            arenaId: id,
-            isCreator,
-            mode
-          });
+          // Join arena - ensure user is not null
+          if (user) {
+            newSocket.emit('join_arena', { 
+              userId: user.id, 
+              arenaId: id,
+              isCreator,
+              mode
+            });
+          }
         });
 
         newSocket.on('connect_error', (err) => {
@@ -215,14 +222,6 @@ export default function ArenaPlay() {
         });
 
         setSocket(newSocket);
-
-        // Cleanup
-        return () => {
-          if (timerRef.current) {
-            clearInterval(timerRef.current);
-          }
-          newSocket.disconnect();
-        };
       }
     });
 
@@ -289,6 +288,17 @@ export default function ArenaPlay() {
     socket.emit('start_quiz', {
       arenaId: arena.id
     });
+  };
+
+  // Add this function to handle ending the quiz
+  const handleEndQuiz = () => {
+    if (!socket || !arena || !isCreator) return;
+    
+    if (window.confirm('Are you sure you want to end the quiz now? This will end the quiz for all participants.')) {
+      socket.emit('end_quiz', {
+        arenaId: arena.id
+      });
+    }
   };
 
   // Render leaderboard component
@@ -581,6 +591,41 @@ export default function ArenaPlay() {
           
           {/* Quiz ended UI for creator */}
           {isCreator && quizEnded && renderCreatorStats()}
+          
+          {/* Active quiz UI for creator */}
+          {isCreator && mode === 'active' && !quizEnded && (
+            <div className="bg-white dark:bg-black rounded-lg shadow-md dark:shadow-white-md overflow-hidden hover-shadow animated-card feature-card mb-4">
+              <div className="bg-green-600 dark:bg-green-700 text-white p-3">
+                <h2 className="text-xl font-bold">Active Quiz Controls</h2>
+              </div>
+              <div className="p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Current Question</p>
+                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      {questionNumber} of {totalQuestions}
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Participants</p>
+                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      {participants.filter(p => !p.isCreator).length}
+                    </p>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={handleEndQuiz}
+                  className="w-full bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white font-bold py-2 px-4 rounded transition-colors duration-200 hover-scale rainbow-btn"
+                >
+                  End Quiz Now
+                </button>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
+                  This will end the quiz for all participants and show final results.
+                </p>
+              </div>
+            </div>
+          )}
           
           {/* Active quiz or participant UI */}
           {(!isCreator && mode !== 'host') && (

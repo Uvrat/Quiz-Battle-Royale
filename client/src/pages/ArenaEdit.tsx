@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import QuestionForm from '../components/QuestionForm';
 import { useAuth } from '../contexts/AuthContext';
+import { API_URL } from '../utils/vars';
 
 interface Option {
   text: string;
@@ -48,7 +49,7 @@ export default function ArenaEdit() {
     const fetchArenaAndQuestions = async () => {
       try {
         // Fetch arena details
-        const arenaResponse = await axios.get(`http://localhost:5000/api/arenas/${id}`, {
+        const arenaResponse = await axios.get(`${API_URL}/arenas/${id}`, {
           headers: {
             'x-auth-token': token
           }
@@ -58,7 +59,7 @@ export default function ArenaEdit() {
         setArenaDescription(arenaResponse.data.description || '');
 
         // Fetch questions
-        const questionsResponse = await axios.get(`http://localhost:5000/api/questions/arena/${id}`, {
+        const questionsResponse = await axios.get(`${API_URL}/questions/arena/${id}`, {
           headers: {
             'x-auth-token': token
           }
@@ -94,7 +95,7 @@ export default function ArenaEdit() {
       };
       
       const response = await axios.put(
-        `http://localhost:5000/api/arenas/${id}`,
+        `${API_URL}/arenas/${id}`,
         updatedArena,
         {
           headers: {
@@ -133,7 +134,7 @@ export default function ArenaEdit() {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/questions',
+        `${API_URL}/questions`,
         newQuestion,
         {
           headers: {
@@ -177,7 +178,7 @@ export default function ArenaEdit() {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/questions/${editingQuestion.id}`,
+        `${API_URL}/questions/${editingQuestion.id}`,
         updatedQuestion,
         {
           headers: {
@@ -208,7 +209,7 @@ export default function ArenaEdit() {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/questions/${questionId}`, {
+      await axios.delete(`${API_URL}/questions/${questionId}`, {
         headers: {
           'x-auth-token': token
         }
@@ -237,7 +238,7 @@ export default function ArenaEdit() {
   const handleReorderQuestions = async (questionIds: string[]) => {
     try {
       await axios.post(
-        'http://localhost:5000/api/questions/reorder',
+        `${API_URL}/questions/reorder`,
         {
           arenaId: id,
           questionOrder: questionIds

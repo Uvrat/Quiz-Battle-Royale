@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
+import { API_URL } from '../utils/vars';
 
 interface Arena {
   id: string;
@@ -34,7 +35,7 @@ export default function MyArenas() {
       }
 
       try {
-        const response = await axios.get('http://localhost:5000/api/arenas/user/created', {
+        const response = await axios.get(`${API_URL}/arenas/user/created`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setMyArenas(response.data);
@@ -54,7 +55,7 @@ export default function MyArenas() {
     
     setActionLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/arenas/${arenaId}`, {
+      await axios.delete(`${API_URL}/arenas/${arenaId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMyArenas(myArenas.filter(arena => arena.id !== arenaId));
@@ -72,7 +73,7 @@ export default function MyArenas() {
     
     setActionLoading(true);
     try {
-      await axios.post(`http://localhost:5000/api/arenas/${arenaId}/start`, {}, {
+      await axios.post(`${API_URL}/arenas/${arenaId}/start`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

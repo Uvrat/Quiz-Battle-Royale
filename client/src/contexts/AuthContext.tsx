@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect,type ReactNode } from 'react';
 import axios from 'axios';
+import { API_URL } from '../utils/vars';
 
 interface User {
   id: string;
@@ -20,7 +21,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_URL = 'http://localhost:5000/api';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
