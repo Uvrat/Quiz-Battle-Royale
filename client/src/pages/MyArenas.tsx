@@ -24,7 +24,7 @@ export default function MyArenas() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [enteringAsHost, setEnteringAsHost] = useState<string | null>(null);
-  const { user, token } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

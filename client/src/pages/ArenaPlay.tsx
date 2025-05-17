@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '../contexts/AuthContext';
@@ -66,7 +66,7 @@ export default function ArenaPlay() {
   const [questionAdded, setQuestionAdded] = useState(false);
   const [startingQuiz, setStartingQuiz] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [pageReady, setPageReady] = useState(false);
+  // const [pageReady, setPageReady] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
