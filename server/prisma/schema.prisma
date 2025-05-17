@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String        @id @default(uuid())
+  username        String        @unique
+  email           String        @unique
+  password        String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  createdArenas   Arena[]       @relation("ArenaCreator")
+  participations  Participation[]
+}
+
+model Arena {
+  id              String        @id @default(uuid())
+  title           String
+  description     String?
+  creatorId       String
+  creator         User          @relation("ArenaCreator", fields: [creatorId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  isActive        Boolean       @default(true)
+  questions       Question[]
+  participations  Participation[]
+}
+
+model Question {
+  id              String        @id @default(uuid())
+  arenaId         String
+  arena           Arena         @relation(fields: [arenaId], references: [id], onDelete: Cascade)
+  questionText    String
+  options         String        // JSON string of options array
+  correctOption   Int           // Index of the correct option
+  timeLimit       Int           // Time limit in seconds
+  points          Int           @default(10)
+  order           Int
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  answers         Answer[]
+}
+
+model Participation {
+  id              String        @id @default(uuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  arenaId         String
+  arena           Arena         @relation(fields: [arenaId], references: [id], onDelete: Cascade)
+  startTime       DateTime      @default(now())
+  endTime         DateTime?
+  totalScore      Int           @default(0)
+  totalTimeTaken  Int           @default(0) // Total time taken in milliseconds
+  isCompleted     Boolean       @default(false)
+  answers         Answer[]
+}
+
+model Answer {
+  id              String        @id @default(uuid())
+  participationId String
+  participation   Participation @relation(fields: [participationId], references: [id], onDelete: Cascade)
+  questionId      String
+  question        Question      @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOption  Int?
+  isCorrect       Boolean       @default(false)
+  timeTaken       Int           // Time taken in milliseconds
+  points          Int           @default(0)
+  answeredAt      DateTime      @default(now())
+}

@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  }
+  body {
+    @apply bg-background text-textColor transition-colors duration-200;
+  }
+
+  /* Dark mode specific styles */
+  html.dark body {
+    @apply bg-dark-background text-dark-textColor;
+  }
+}
+
+/* Animation keyframes */
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  0% { transform: translateX(20px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes moving-stripes {
+  0% { 
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+  }
+  100% { 
+    background-position: 50px 0, -50px 100%, 0 -50px, 100% 50px;
+  }
+}
+
+/* Custom utility classes */
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite linear;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.hover-scale {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.hover-scale:active {
+  transform: scale(0.98);
+}
+
+.hover-shadow {
+  transition: box-shadow 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.dark .hover-shadow:hover {
+  box-shadow: 
+    0 15px 25px -5px rgba(255, 255, 255, 0.15), 
+    0 10px 10px -5px rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.hover-shadow:active {
+  transform: translateY(0);
+}
+
+/* Rainbow glowing button hover effect */
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rainbow-btn {
+  transition: all 0.3s ease-out;
+  position: relative;
+  z-index: 1;
+  background-size: 100%;
+}
+
+.rainbow-btn:hover {
+  background-image: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+  background-size: 400% 400%;
+  animation: rainbow-bg 3s ease infinite;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  text-shadow: 
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0 0 5px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.dark .rainbow-btn:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  text-shadow: 
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0 0 6px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.rainbow-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* Dark mode utilities */
+.dark .dark-card {
+  @apply bg-dark-cardBg border-dark-borderColor;
+}
+
+.theme-transition {
+  @apply transition-all duration-200;
+}
+
+/* Custom shadows for dark mode */
+.dark .shadow-white {
+  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -1px rgba(255, 255, 255, 0.03);
+}
+
+.dark .shadow-white-lg {
+  box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
+}
+
+.dark .shadow-white-md {
+  box-shadow: 0 4px 8px -2px rgba(255, 255, 255, 0.06);
+}
+
+/* Blue color adjustments for dark mode */
+.dark .dark-blue-900 {
+  @apply bg-blue-900;
+}
+
+.dark .text-dark-blue {
+  @apply text-blue-900;
+}
+
+/* Staggered animation utility for lists */
+.stagger-list > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-list > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-list > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-list > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-list > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-list > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-list > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-list > *:nth-child(8) { animation-delay: 0.4s; }
+.stagger-list > *:nth-child(9) { animation-delay: 0.45s; }
+.stagger-list > *:nth-child(10) { animation-delay: 0.5s; }
+
+/* Card hover animation */
+.animated-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .animated-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.animated-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 15px 30px -5px rgba(0, 0, 0, 0.15), 
+    0 10px 15px -5px rgba(0, 0, 0, 0.1),
+    0 0 10px 3px rgba(59, 130, 246, 0.15); /* Subtle blue glow matching primary color */
+}
+
+.dark .animated-card:hover {
+  box-shadow: 
+    0 15px 30px -5px rgba(255, 255, 255, 0.15), 
+    0 10px 15px -5px rgba(255, 255, 255, 0.1),
+    0 0 15px 5px rgba(30, 64, 175, 0.35); /* Brighter dark blue glow */
+}
+
+/* Animated striped border styles */
+.animated-card {
+  position: relative;
+}
+
+.animated-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: 
+    linear-gradient(90deg, rgba(0, 0, 0, 0.6) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.6) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  animation: moving-stripes 6s linear infinite;
+  transition: all 0.3s ease;
+}
+
+.dark .animated-card::after {
+  background: 
+    linear-gradient(90deg, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.8) 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
+}
+
+.animated-card:hover::after {
+  background-size: 10px 3px, 10px 3px, 3px 10px, 3px 10px;
+  animation: moving-stripes 1s linear infinite;
+  /* background: 
+    linear-gradient(90deg, rgba(0, 0, 0, 0.7) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.7) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7) 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y; */
+}
+
+.dark .animated-card:hover::after {
+  background-size: 10px 3px, 10px 3px, 3px 10px, 3px 10px;
+  animation: moving-stripes 1s linear infinite, border-color-shift 3s infinite alternate;
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8));
+}
+
+/* Color shift animation for border in dark mode */
+@keyframes border-color-shift {
+  0% { 
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8)); /* Blue glow */
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(129, 140, 248, 0.8)); /* Indigo glow */
+  }
+  100% { 
+    filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.8)); /* Amber glow */
+  }
+}
+
+/* Feature card with prominent hover effect */
+.feature-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .feature-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 
+    0 20px 30px -10px rgba(0, 0, 0, 0.2), 
+    0 10px 15px -5px rgba(0, 0, 0, 0.1),
+    0 0 15px 5px rgba(59, 130, 246, 0.25), /* Blue glow */
+    0 0 15px 5px rgba(245, 158, 11, 0.1); /* Amber glow */
+}
+
+.dark .feature-card:hover {
+  box-shadow: 
+    0 20px 30px -10px rgba(255, 255, 255, 0.2), 
+    0 10px 15px -5px rgba(255, 255, 255, 0.15),
+    0 0 20px 8px rgba(30, 64, 175, 0.4), /* Brighter dark blue glow */
+    0 0 15px 5px rgba(251, 191, 36, 0.3); /* Brighter dark amber glow */
+}
