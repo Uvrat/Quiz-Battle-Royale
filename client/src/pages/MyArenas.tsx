@@ -36,7 +36,7 @@ export default function MyArenas() {
 
       try {
         const response = await axios.get(`${API_URL}/arenas/user/created`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { 'x-auth-token': token }
         });
         setMyArenas(response.data);
       } catch (err) {
@@ -56,7 +56,7 @@ export default function MyArenas() {
     setActionLoading(true);
     try {
       await axios.delete(`${API_URL}/arenas/${arenaId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 'x-auth-token': token }
       });
       setMyArenas(myArenas.filter(arena => arena.id !== arenaId));
     } catch (err) {
@@ -74,7 +74,7 @@ export default function MyArenas() {
     setActionLoading(true);
     try {
       await axios.post(`${API_URL}/arenas/${arenaId}/start`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 'x-auth-token': token }
       });
       
       // Update local state to reflect the change
