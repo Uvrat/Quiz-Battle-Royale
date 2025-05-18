@@ -1,5 +1,5 @@
 // Backend API configuration
-export const BACKEND_URL = 'http://localhost:5000';
+export const BACKEND_URL = 'https://quiz-battle-royale-production.up.railway.app';
 export const API_URL = `${BACKEND_URL}/api`;
 export const SOCKET_URL = BACKEND_URL;
 
