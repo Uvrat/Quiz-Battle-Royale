@@ -87,8 +87,6 @@ export default function ArenaPlay() {
             }
           });
           const arenaData = await response.json();
-          
-          // Safe check for user before accessing id
           if (user && arenaData.creatorId === user.id) {
             // Redirect to host mode if user is creator but not in creator mode
             navigate(`/arena/${id}/play?isCreator=true&mode=host`);
@@ -282,12 +280,16 @@ export default function ArenaPlay() {
   };
 
   const handleStartQuiz = () => {
-    if (!socket || !arena || !isCreator) return;
-    
+    console.log("handleStartQuiz");
+    if (!socket || !user || !id) return;
+
+    console.log("socket");
+
     setStartingQuiz(true);
-    socket.emit('start_quiz', {
-      arenaId: arena.id
-    });
+    // Emit socket event to start the quiz
+    socket.emit('start_quiz', { arenaId: id, userId: user.id });
+    // Navigate to play view for the creator
+    navigate(`/arena/${id}/play?isCreator=true&mode=active`);
   };
 
   // Add this function to handle ending the quiz
@@ -511,7 +513,7 @@ export default function ArenaPlay() {
                     
                     <button
                       onClick={handleStartQuiz}
-                      disabled={startingQuiz || totalQuestions === 0}
+                      // disabled={startingQuiz || totalQuestions === 0}
                       className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors duration-200 hover-scale rainbow-btn"
                     >
                       {startingQuiz ? 'Starting Quiz...' : 'Start Quiz Now'}
