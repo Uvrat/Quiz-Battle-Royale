@@ -95,7 +95,7 @@ export default function Arenas() {
           {isAuthenticated && (
             <Link
               to="/create-arena"
-              className="flex-shrink-0 bg-primary hover:bg-blue-600 dark:bg-dark-primary dark:hover:bg-blue-900 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95"
+              className="flex-shrink-0 bg-primary hover:bg-blue-600 dark:bg-dark-primary dark:hover:bg-blue-900 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 rainbow-btn"
             >
               Create Arena
             </Link>
@@ -158,9 +158,9 @@ export default function Arenas() {
                   </div>
                   <Link
                     to={`/arena/${arena.id}`}
-                    className="relative overflow-hidden bg-primary hover:bg-blue-600 dark:bg-dark-primary dark:hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 group-hover:shadow-lg dark:group-hover:shadow-white-md hover-scale"
+                    className="relative overflow-hidden bg-primary hover:bg-blue-600 dark:bg-dark-primary dark:hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 group-hover:shadow-lg dark:group-hover:shadow-white-md hover-scale rainbow-btn"
                   >
-                    <span className="relative z-10">Join Battle</span>
+                    <span className="relative z-10 ">Join Battle</span>
                     <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-500 to-primary dark:from-dark-primary dark:via-blue-800 dark:to-dark-primary bg-[length:200%_100%] animate-shimmer opacity-0 group-hover:opacity-100"></span>
                   </Link>
                 </div>
