@@ -57,7 +57,7 @@ export default function Layout({ children }: LayoutProps) {
       
       <footer className="bg-blue-800 dark:bg-blue-900 text-white py-4 relative z-10">
         <div className="container mx-auto px-4 text-center">
-          <p>© 2023 Quiz Battle Royale. Test your knowledge and beat the competition!</p>
+          <p>© {new Date().getFullYear()} Quiz Battle Royale. Test your knowledge and beat the competition!</p>
         </div>
       </footer>
     </div>
