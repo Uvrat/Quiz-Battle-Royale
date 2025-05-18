@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import io, { Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
+import { SOCKET_URL } from '../utils/vars';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -17,7 +18,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Only connect to socket if user is authenticated
     if (token) {
-      const newSocket = io('http://localhost:5000', {
+      const newSocket = io(SOCKET_URL, {
         auth: {
           token
         }
