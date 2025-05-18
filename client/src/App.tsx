@@ -15,7 +15,7 @@ import './App.css';
 import React from 'react';
 
 // Protected route component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedRoute = ({ children, routeTo = "/" }: { children: React.ReactNode, routeTo?: string }) => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
@@ -27,7 +27,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to={`/login?to=${routeTo}`} />;
   }
 
   return children;
@@ -47,7 +47,7 @@ function AppContent() {
         <Route 
           path="/create-arena" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute routeTo="/create-arena">
               <CreateArena />
             </ProtectedRoute>
           } 
@@ -55,7 +55,7 @@ function AppContent() {
         <Route 
           path="/my-arenas" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute routeTo="/my-arenas">
               <MyArenas />
             </ProtectedRoute>
           } 
@@ -63,7 +63,7 @@ function AppContent() {
         <Route 
           path="/arena/:id/edit" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute routeTo="/arena/:id/edit">
               <ArenaEdit />
             </ProtectedRoute>
           } 
