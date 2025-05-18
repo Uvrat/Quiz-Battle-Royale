@@ -34,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="mr-2">Welcome, {user?.username}</span>
                   <button 
                     onClick={handleLogout}
-                    className="bg-blue-600 dark:bg-blue-900 px-3 py-1 rounded hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors hover-scale"
+                    className="bg-blue-600 dark:bg-blue-900 px-3 py-1 rounded hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors hover-scale rainbow-btn"
                   >
                     Logout
                   </button>
