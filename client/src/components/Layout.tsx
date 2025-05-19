@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ThemeToggle from './ThemeToggle';
@@ -26,7 +26,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen flex flex-col bg-background dark:bg-dark-background text-textColor dark:text-dark-textColor font-poppins transition-colors duration-200 relative">
       <BackgroundPatterns />
 
-      <header className="bg-primary dark:bg-dark-primary text-white shadow-md dark:shadow-white-md relative z-10">
+      <header className="bg-primary dark:bg-dark-primary text-white shadow-md dark:shadow-white-md relative z-40">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold" onClick={handleNavClick}>
             Quiz Battle Royale
@@ -84,7 +84,7 @@ export default function Layout({ children }: LayoutProps) {
                 >
                   Create Arena
                 </Link>
-                <div className="flex items-center ml-0 md:ml-4 w-full md:w-auto py-2 md:py-0">
+                <div className="flex justify-between items-center ml-0 md:ml-4 w-full md:w-auto py-2 md:py-0">
                   <span className="mr-2">Welcome, {user?.username}</span>
                   <button
                     onClick={handleLogout}
@@ -113,7 +113,7 @@ export default function Layout({ children }: LayoutProps) {
               </>
             )}
             {/* Theme toggle always visible */}
-            <div className="ml-0 md:ml-2 mt-2 md:mt-0">
+            <div className="w-full items-end ml-0 md:ml-2 mt-2 md:mt-0">
               <ThemeToggle />
             </div>
           </nav>

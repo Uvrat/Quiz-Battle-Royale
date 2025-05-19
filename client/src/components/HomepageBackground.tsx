@@ -24,7 +24,7 @@ export default function HomepageBackground() {
   }, []);
   
   return (
-    <div className={`fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`fixed inset-0 w-full h-full overflow-hidden pointer-events-none relativez-0 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Grid pattern with varying intensity - smaller size */}
       <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.01]">
         <div className="h-full w-full" style={{

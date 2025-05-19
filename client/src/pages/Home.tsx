@@ -46,7 +46,7 @@ export default function Home() {
     <Layout>
       <HomepageBackground />
       
-      <div className="text-center mb-12 animate-fade-in relative">
+      <div className="text-center mb-12 animate-fade-in relative z-0">
         <h1 className="text-4xl font-bold mb-4 font-poppins">Welcome to Quiz Battle Royale</h1>
         <p className="text-xl text-gray-700 dark:text-dark-subText max-w-2xl mx-auto font-inter">
           Test your knowledge, challenge others, and climb the leaderboards in this real-time quiz competition platform.
