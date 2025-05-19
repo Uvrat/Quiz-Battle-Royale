@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import BackgroundPatterns from './BackgroundPatterns';
-
+import GitHub from './Github';
 interface LayoutProps {
   children: ReactNode;
 }
@@ -113,8 +113,9 @@ export default function Layout({ children }: LayoutProps) {
               </>
             )}
             {/* Theme toggle always visible */}
-            <div className="w-full items-end ml-0 md:ml-2 mt-2 md:mt-0">
+            <div className={`flex  items-end ml-0 md:ml-2 mt-2 md:mt-0 ${isMenuOpen ? 'w-full justify-between' : ' '}`}>
               <ThemeToggle />
+              <GitHub />
             </div>
           </nav>
         </div>
