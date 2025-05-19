@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="#3B82F6" />
+  
+  <!-- Question Mark -->
+  <path d="M256 128C211.8 128 176 163.8 176 208C176 216.8 183.2 224 192 224C200.8 224 208 216.8 208 208C208 187.2 224.8 172.8 244.8 172.8C264.8 172.8 281.6 187.2 281.6 208C281.6 228.8 264.8 243.2 244.8 243.2C236 243.2 228.8 251.2 228.8 260V288C228.8 296.8 236 304 244.8 304C253.6 304 260.8 296.8 260.8 288V260C296 260 320 236 320 208C320 163.8 284.2 128 256 128Z" fill="white"/>
+  <circle cx="256" cy="352" r="24" fill="white"/>
+  
+  <!-- Crown Elements -->
+  <path d="M192 192L256 128L320 192L304 256L208 256L192 192Z" fill="#FCD34D" stroke="#F59E0B" stroke-width="8"/>
+  <circle cx="256" cy="128" r="16" fill="#F59E0B"/>
+  <circle cx="192" cy="192" r="12" fill="#F59E0B"/>
+  <circle cx="320" cy="192" r="12" fill="#F59E0B"/>
+  
+  <!-- Battle Elements -->
+  <path d="M128 320L160 288L192 320L160 352L128 320Z" fill="#EF4444" stroke="#DC2626" stroke-width="4"/>
+  <path d="M320 320L352 288L384 320L352 352L320 320Z" fill="#EF4444" stroke="#DC2626" stroke-width="4"/>
+</svg> 
