@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -148,6 +151,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -199,18 +207,17 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": false,
+  "activeProvider": "postgresql",
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": null,
-        "value": "file:./dev.db"
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\nmodel User {\n  id             String          @id @default(uuid())\n  username       String          @unique\n  email          String          @unique\n  password       String\n  createdAt      DateTime        @default(now())\n  updatedAt      DateTime        @updatedAt\n  createdArenas  Arena[]         @relation(\"ArenaCreator\")\n  participations Participation[]\n}\n\nmodel Arena {\n  id             String          @id @default(uuid())\n  title          String\n  description    String?\n  creatorId      String\n  creator        User            @relation(\"ArenaCreator\", fields: [creatorId], references: [id])\n  createdAt      DateTime        @default(now())\n  updatedAt      DateTime        @updatedAt\n  isActive       Boolean         @default(true)\n  questions      Question[]\n  participations Participation[]\n}\n\nmodel Question {\n  id            String   @id @default(uuid())\n  arenaId       String\n  arena         Arena    @relation(fields: [arenaId], references: [id], onDelete: Cascade)\n  questionText  String\n  options       String // JSON string of options array\n  correctOption Int // Index of the correct option\n  timeLimit     Int // Time limit in seconds\n  points        Int      @default(10)\n  order         Int\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  answers       Answer[]\n}\n\nmodel Participation {\n  id             String    @id @default(uuid())\n  userId         String\n  user           User      @relation(fields: [userId], references: [id])\n  arenaId        String\n  arena          Arena     @relation(fields: [arenaId], references: [id], onDelete: Cascade)\n  startTime      DateTime  @default(now())\n  endTime        DateTime?\n  totalScore     Int       @default(0)\n  totalTimeTaken Int       @default(0) // Total time taken in milliseconds\n  isCompleted    Boolean   @default(false)\n  answers        Answer[]\n}\n\nmodel Answer {\n  id              String        @id @default(uuid())\n  participationId String\n  participation   Participation @relation(fields: [participationId], references: [id], onDelete: Cascade)\n  questionId      String\n  question        Question      @relation(fields: [questionId], references: [id], onDelete: Cascade)\n  selectedOption  Int?\n  isCorrect       Boolean       @default(false)\n  timeTaken       Int // Time taken in milliseconds\n  points          Int           @default(0)\n  answeredAt      DateTime      @default(now())\n}\n",
-  "inlineSchemaHash": "c40db2614c0a3b1470d184feb8e32cec5471855af1ecad2605d039b683bf1ef7",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id             String          @id @default(uuid())\n  username       String          @unique\n  email          String          @unique\n  password       String\n  createdAt      DateTime        @default(now())\n  updatedAt      DateTime        @updatedAt\n  createdArenas  Arena[]         @relation(\"ArenaCreator\")\n  participations Participation[]\n}\n\nmodel Arena {\n  id             String          @id @default(uuid())\n  title          String\n  description    String?\n  creatorId      String\n  creator        User            @relation(\"ArenaCreator\", fields: [creatorId], references: [id])\n  createdAt      DateTime        @default(now())\n  updatedAt      DateTime        @updatedAt\n  isActive       Boolean         @default(true)\n  questions      Question[]\n  participations Participation[]\n}\n\nmodel Question {\n  id            String   @id @default(uuid())\n  arenaId       String\n  arena         Arena    @relation(fields: [arenaId], references: [id], onDelete: Cascade)\n  questionText  String\n  options       String // JSON string of options array\n  correctOption Int // Index of the correct option\n  timeLimit     Int // Time limit in seconds\n  points        Int      @default(10)\n  order         Int\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  answers       Answer[]\n}\n\nmodel Participation {\n  id             String    @id @default(uuid())\n  userId         String\n  user           User      @relation(fields: [userId], references: [id])\n  arenaId        String\n  arena          Arena     @relation(fields: [arenaId], references: [id], onDelete: Cascade)\n  startTime      DateTime  @default(now())\n  endTime        DateTime?\n  totalScore     Int       @default(0)\n  totalTimeTaken Int       @default(0) // Total time taken in milliseconds\n  isCompleted    Boolean   @default(false)\n  answers        Answer[]\n}\n\nmodel Answer {\n  id              String        @id @default(uuid())\n  participationId String\n  participation   Participation @relation(fields: [participationId], references: [id], onDelete: Cascade)\n  questionId      String\n  question        Question      @relation(fields: [questionId], references: [id], onDelete: Cascade)\n  selectedOption  Int?\n  isCorrect       Boolean       @default(false)\n  timeTaken       Int // Time taken in milliseconds\n  points          Int           @default(0)\n  answeredAt      DateTime      @default(now())\n}\n",
+  "inlineSchemaHash": "33c858d19beccdf7246f8a6974f7cb05c5bf54bb61f67787cd76a03949ece0a1",
   "copyEngine": true
 }
 config.dirname = '/'
@@ -221,7 +228,9 @@ config.engineWasm = undefined
 config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
-  parsed: {}
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
 })
 
 if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
